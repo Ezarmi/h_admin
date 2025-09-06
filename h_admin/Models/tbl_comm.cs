@@ -15,8 +15,9 @@ namespace h_admin.Models
     public partial class tbl_comm
     {
         public int pkID { get; set; }
-        public string Nam { get; set; }
+        public string Name { get; set; }
         public string valuee { get; set; }
         public string dis { get; set; }
+        public int typee { get; set; }
     }
 }
