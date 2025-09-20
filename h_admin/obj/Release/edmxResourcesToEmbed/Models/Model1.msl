@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="hospitalModelStoreContainer" CdmEntityContainer="hdata">
+    <EntitySetMapping Name="tbl_comm">
+      <EntityTypeMapping TypeName="hospitalModel.tbl_comm">
+        <MappingFragment StoreEntitySet="tbl_comm">
+          <ScalarProperty Name="typee" ColumnName="typee" />
+          <ScalarProperty Name="dis" ColumnName="dis" />
+          <ScalarProperty Name="valuee" ColumnName="valuee" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="pkID" ColumnName="pkID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

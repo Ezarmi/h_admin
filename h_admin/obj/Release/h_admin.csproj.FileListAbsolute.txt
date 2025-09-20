@@ -1,0 +1,2 @@
+C:\Users\Ezarm\Dropbox\Documents\Projects\HW Project\h_admin\h_admin\obj\Release\h_admin.csproj.AssemblyReference.cache
+C:\Users\Ezarm\Dropbox\Documents\Projects\HW Project\h_admin\h_admin\obj\Release\h_admin.csproj.CoreCompileInputs.cache

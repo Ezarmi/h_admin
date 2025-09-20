@@ -73,11 +73,11 @@ namespace h_admin.Controllers
                     if (file.ContentLength > 3000000) { return Json(new { state = false, m = "حجم عکس باید کوچکتر از 3 مگا بایت باشد" }, JsonRequestBehavior.AllowGet); }
 
                     FtpWebRequest ftpRequest =
-                   (FtpWebRequest)WebRequest.Create("");
+                   (FtpWebRequest)WebRequest.Create("آدرس اینترنتی عکس این‌جا وارد شود");
 
 
 
-                    ftpRequest.Credentials = new NetworkCredential("", "");
+                    ftpRequest.Credentials = new NetworkCredential("یوزر نیم", "پسورد");
                     ftpRequest.Method = WebRequestMethods.Ftp.ListDirectory;
                     ftpRequest.EnableSsl = true;
                     FtpWebResponse response = (FtpWebResponse)ftpRequest.GetResponse();
