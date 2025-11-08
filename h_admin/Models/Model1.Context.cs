@@ -26,5 +26,6 @@ namespace h_admin.Models
         }
     
         public virtual DbSet<tbl_comm> tbl_comm { get; set; }
+        public virtual DbSet<tbl_Skills> tbl_Skills { get; set; }
     }
 }

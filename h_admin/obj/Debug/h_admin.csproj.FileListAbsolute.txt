@@ -70,3 +70,7 @@ C:\Users\Ezarm\OneDrive\Documents\Projects\h_admin\h_admin\obj\Debug\h_admin.csp
 C:\Users\Ezarm\OneDrive\Documents\Projects\h_admin\h_admin\obj\Debug\h_admin.csproj.CopyComplete
 C:\Users\Ezarm\OneDrive\Documents\Projects\h_admin\h_admin\obj\Debug\h_admin.dll
 C:\Users\Ezarm\OneDrive\Documents\Projects\h_admin\h_admin\obj\Debug\h_admin.pdb
+C:\Users\Ezarm\Documents\Project\h_admin\h_admin\obj\Debug\h_admin.csproj.AssemblyReference.cache
+C:\Users\Ezarm\Documents\Project\h_admin\h_admin\obj\Debug\h_admin.csproj.CoreCompileInputs.cache
+C:\Users\Ezarm\Documents\Project\h_admin\h_admin\obj\Debug\h_admin.dll
+C:\Users\Ezarm\Documents\Project\h_admin\h_admin\obj\Debug\h_admin.pdb

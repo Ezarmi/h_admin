@@ -1,0 +1,77 @@
+﻿@{
+
+    Layout = "~/Views/Shared/layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">جدول ریسپانسیو</h3>
+
+                <div class="box-tools">
+                    <div class="input-group input-group-sm" style="width: 150px;">
+                        <input type="text" name="table_search" class="form-control pull-right" placeholder="جستجو">
+                        <div class="input-group-btn">
+                            <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                        </div>
+                    </div>
+                        <button class="btn btn-success">افزودن دپارتمان</button>
+                </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-hover">
+
+                    <thead>
+                        <tr>
+
+                            <th>شماره</th>
+                            <th>دپارتمان</th>
+
+                            <th>عملیات</th>
+
+                        </tr>
+                    </thead>
+                    <tbody id="tbl_dep">
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $.post("/Home/getdep")
+                .done(function (res) {
+                    if (res.state) {
+                        $("#tbl_dep").empty();
+
+                        for (var item in res.m) {
+                            $("tbl_dep").append(
+                                '<tr>' +
+                                '<td>' + res.m[item].pkID + '</td>' +
+                                '<td>' + res.m[item].Skill + '</td>' +
+                                '<td>' + '<button class=btn btn-danger>حذف</button>' + '</td>' +
+                                '</tr>'
+
+                            );
+                        }
+                    }
+                    else {
+                        swal("خطا", res.m, "error");
+                    }
+                })
+                .fail(function () {
+                    swal("خطا", "خطا در برقراری ارتباط با سرور", "error");
+                });
+        });
+
+    </script>
+    }

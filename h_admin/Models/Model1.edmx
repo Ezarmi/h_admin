@@ -15,8 +15,16 @@
           <Property Name="dis" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="typee" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="tbl_Skills">
+          <Key>
+            <PropertyRef Name="pkID" />
+          </Key>
+          <Property Name="pkID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Skill" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityContainer Name="hospitalModelStoreContainer">
           <EntitySet Name="tbl_comm" EntityType="Self.tbl_comm" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Skills" EntityType="Self.tbl_Skills" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -24,6 +32,7 @@
       <Schema Namespace="hospitalModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="hdata" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="tbl_comm" EntityType="hospitalModel.tbl_comm" />
+          <EntitySet Name="tbl_Skills" EntityType="hospitalModel.tbl_Skills" />
         </EntityContainer>
         <EntityType Name="tbl_comm">
           <Key>
@@ -34,6 +43,13 @@
           <Property Name="valuee" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="dis" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="typee" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_Skills">
+          <Key>
+            <PropertyRef Name="pkID" />
+          </Key>
+          <Property Name="pkID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Skill" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -48,6 +64,14 @@
                 <ScalarProperty Name="dis" ColumnName="dis" />
                 <ScalarProperty Name="valuee" ColumnName="valuee" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="pkID" ColumnName="pkID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Skills">
+            <EntityTypeMapping TypeName="hospitalModel.tbl_Skills">
+              <MappingFragment StoreEntitySet="tbl_Skills">
+                <ScalarProperty Name="Skill" ColumnName="Skill" />
                 <ScalarProperty Name="pkID" ColumnName="pkID" />
               </MappingFragment>
             </EntityTypeMapping>
