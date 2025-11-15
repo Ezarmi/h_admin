@@ -5,9 +5,17 @@
       <EntityTypeMapping TypeName="hospitalModel.tbl_comm">
         <MappingFragment StoreEntitySet="tbl_comm">
           <ScalarProperty Name="typee" ColumnName="typee" />
-          <ScalarProperty Name="dis" ColumnName="dis" />
-          <ScalarProperty Name="valuee" ColumnName="valuee" />
+          <ScalarProperty Name="pkID" ColumnName="pkID" />
           <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="valuee" ColumnName="valuee" />
+          <ScalarProperty Name="dis" ColumnName="dis" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Skills">
+      <EntityTypeMapping TypeName="hospitalModel.tbl_Skills">
+        <MappingFragment StoreEntitySet="tbl_Skills">
+          <ScalarProperty Name="Skill" ColumnName="Skill" />
           <ScalarProperty Name="pkID" ColumnName="pkID" />
         </MappingFragment>
       </EntityTypeMapping>

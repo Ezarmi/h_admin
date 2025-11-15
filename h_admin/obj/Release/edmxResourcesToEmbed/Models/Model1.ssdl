@@ -10,7 +10,15 @@
     <Property Name="dis" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="typee" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="tbl_Skills">
+    <Key>
+      <PropertyRef Name="pkID" />
+    </Key>
+    <Property Name="pkID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Skill" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
   <EntityContainer Name="hospitalModelStoreContainer">
     <EntitySet Name="tbl_comm" EntityType="Self.tbl_comm" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_Skills" EntityType="Self.tbl_Skills" Schema="dbo" store:Type="Tables" />
   </EntityContainer>
 </Schema>

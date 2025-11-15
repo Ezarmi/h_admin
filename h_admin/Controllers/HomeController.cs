@@ -27,26 +27,26 @@ namespace h_admin.Controllers
         {
             try
             {
-                var res = context.tbl_comm.Select(x => new { x.pkID, x.Name, x.valuee, x.dis, x.typee }).ToList();
+                var res = context.tbl_comm.Select(x => new { x.pkID, x.Name, x.valuee, x.dis,x.typee }).ToList();
                 return Json(new { state = true, m = res }, JsonRequestBehavior.AllowGet);
             }
-            catch (Exception e)
+            catch(Exception e)
             {
                 return Json(new { state = false, m = e.Message }, JsonRequestBehavior.AllowGet);
             }
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult commtblch(int id, string valuee)
+        public ActionResult commtblch(int id,string valuee)
         {
             try
             {
                 var res = context.tbl_comm.Where(x => x.pkID == id).Single();
                 res.valuee = valuee;
                 context.SaveChanges();
-                return Json(new { state = true, m = valuee }, JsonRequestBehavior.AllowGet);
+                return Json(new { state = true, m =valuee }, JsonRequestBehavior.AllowGet);
             }
-            catch (Exception e)
+            catch(Exception e)
             {
                 return Json(new { state = false, m = e.Message }, JsonRequestBehavior.AllowGet);
             }
@@ -61,93 +61,93 @@ namespace h_admin.Controllers
 
             try
             {
+               
+               
+                
+                
+                    if (System.Web.HttpContext.Current.Request.Files.AllKeys.Any())
+                    {
+                        var file = System.Web.HttpContext.Current.Request.Files["image"];
 
 
+                        if (file.ContentLength > 3000000) { return Json(new { state = false, m = "حجم عکس باید کوچکتر از 3 مگا بایت باشد" }, JsonRequestBehavior.AllowGet); }
 
+                             FtpWebRequest ftpRequest =
+                            (FtpWebRequest)WebRequest.Create("");
+                    
+                    
 
-                if (System.Web.HttpContext.Current.Request.Files.AllKeys.Any())
-                {
-                    var file = System.Web.HttpContext.Current.Request.Files["image"];
-
-
-                    if (file.ContentLength > 3000000) { return Json(new { state = false, m = "حجم عکس باید کوچکتر از 3 مگا بایت باشد" }, JsonRequestBehavior.AllowGet); }
-
-                    FtpWebRequest ftpRequest =
-                   (FtpWebRequest)WebRequest.Create("آدرس اینترنتی عکس این‌جا وارد شود");
-
-
-
-                    ftpRequest.Credentials = new NetworkCredential("یوزر نیم", "پسورد");
-                    ftpRequest.Method = WebRequestMethods.Ftp.ListDirectory;
+                        ftpRequest.Credentials = new NetworkCredential("", "");
+                        ftpRequest.Method = WebRequestMethods.Ftp.ListDirectory;
                     ftpRequest.EnableSsl = true;
-                    FtpWebResponse response = (FtpWebResponse)ftpRequest.GetResponse();
-                    StreamReader streamReader = new StreamReader(response.GetResponseStream());
+                        FtpWebResponse response = (FtpWebResponse)ftpRequest.GetResponse();
+                        StreamReader streamReader = new StreamReader(response.GetResponseStream());
 
 
 
-                    string imgname = "_" + id + "_";
-                    string pic = "";
-                    string line = streamReader.ReadLine();
-                    while (!string.IsNullOrEmpty(line))
-                    {
-                        if (line.Contains(imgname))
+                        string imgname = "_" + id + "_";
+                        string pic = "";
+                        string line = streamReader.ReadLine();
+                        while (!string.IsNullOrEmpty(line))
                         {
-                            pic = line;
-                            line = streamReader.ReadLine();
+                            if (line.Contains(imgname))
+                            {
+                                pic = line;
+                                line = streamReader.ReadLine();
 
 
-                            break;
-                        }
-                        else
-                        {
-                            line = streamReader.ReadLine();
-                        }
-                    }
-
-                    streamReader.Close();
-
-                    if (pic != "")
-                    {
-                        FtpWebRequest request = (FtpWebRequest)WebRequest.Create("ftp://irwrs1.dnswebhost.com/httpdocs/hospital_img/" + pic);
-                        request.Method = WebRequestMethods.Ftp.DeleteFile;
-                        request.Credentials = new NetworkCredential("", "");
-
-                        using (FtpWebResponse response2 = (FtpWebResponse)request.GetResponse())
-                        {
-                            pic = response2.StatusDescription;
+                                break;
+                            }
+                            else
+                            {
+                                line = streamReader.ReadLine();
+                            }
                         }
 
-                    }
+                        streamReader.Close();
+
+                        if (pic != "")
+                        {
+                            FtpWebRequest request = (FtpWebRequest)WebRequest.Create("ftp://irwrs1.dnswebhost.com/httpdocs/hospital_img/" + pic);
+                            request.Method = WebRequestMethods.Ftp.DeleteFile;
+                            request.Credentials = new NetworkCredential("", "");
+
+                            using (FtpWebResponse response2 = (FtpWebResponse)request.GetResponse())
+                            {
+                                pic = response2.StatusDescription;
+                            }
+
+                        }
 
 
 
 
 
-                    string extention = Path.GetExtension(file.FileName).ToLower();
-
+                        string extention = Path.GetExtension(file.FileName).ToLower();
+                   
                     var uploadurl = "ftp://irwrs1.dnswebhost.com/httpdocs/hospital_img";
-                    var uploadfilename = "_" + id + "_(" + DateTime.Now + ")" + extention;
-                    uploadfilename = uploadfilename.Replace(@"/", "-");
-                    uploadfilename = uploadfilename.Replace(@":", "-");
-                    var username = "";
-                    var password = "";
-                    Stream streamObj = file.InputStream;
-                    byte[] buffer = new byte[file.ContentLength];
-                    streamObj.Read(buffer, 0, buffer.Length);
-                    streamObj.Close();
-                    streamObj = null;
-                    string ftpurl = String.Format("{0}/{1}", uploadurl, uploadfilename);
-                    var requestObj = FtpWebRequest.Create(ftpurl) as FtpWebRequest;
-
-                    requestObj.Method = WebRequestMethods.Ftp.UploadFile;
-                    requestObj.Credentials = new NetworkCredential(username, password);
-
-                    Stream requestStream = requestObj.GetRequestStream();
-
-                    requestStream.Write(buffer, 0, buffer.Length);
-                    requestStream.Flush();
-                    requestStream.Close();
-                    requestObj = null;
+                        var uploadfilename = "_" + id + "_(" + DateTime.Now + ")" + extention;
+                        uploadfilename = uploadfilename.Replace(@"/", "-");
+                        uploadfilename = uploadfilename.Replace(@":", "-");
+                        var username = "";
+                        var password = "";
+                        Stream streamObj = file.InputStream;
+                        byte[] buffer = new byte[file.ContentLength];
+                        streamObj.Read(buffer, 0, buffer.Length);
+                        streamObj.Close();
+                        streamObj = null;
+                        string ftpurl = String.Format("{0}/{1}", uploadurl, uploadfilename);
+                        var requestObj = FtpWebRequest.Create(ftpurl) as FtpWebRequest;
+                
+                        requestObj.Method = WebRequestMethods.Ftp.UploadFile;
+                        requestObj.Credentials = new NetworkCredential(username, password);
+                
+                        Stream requestStream = requestObj.GetRequestStream();
+                    
+                        requestStream.Write(buffer, 0, buffer.Length);
+                        requestStream.Flush();
+                        requestStream.Close();
+                        requestObj = null;
 
 
 
@@ -157,17 +157,17 @@ namespace h_admin.Controllers
                     res.valuee = "http://omg2.ir/hospital_img/" + uploadfilename;
 
 
-                    context.SaveChanges();
+                        context.SaveChanges();
 
 
-                    return Json(new { state = true, nimg = uploadfilename, m = "عکس با موفقیت بارگزاری شد" }, JsonRequestBehavior.AllowGet);
-                }
-                else
-                {
-                    return Json(new { state = false, m = "عکس یافت نشد" }, JsonRequestBehavior.AllowGet);
-                }
+                        return Json(new { state = true, nimg = uploadfilename, m = "عکس با موفقیت بارگزاری شد" }, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        return Json(new { state = false, m = "عکس یافت نشد" }, JsonRequestBehavior.AllowGet);
+                    }
 
-
+               
             }
             catch (Exception e)
             {
@@ -189,7 +189,7 @@ namespace h_admin.Controllers
                 var res = context.tbl_Skills.Select(x => new { x.pkID, x.Skill }).ToList();
                 return Json(new { state = true, m = res }, JsonRequestBehavior.AllowGet);
             }
-            catch (Exception e)
+            catch(Exception e)
             {
                 return Json(new { state = false, m = e.Message }, JsonRequestBehavior.AllowGet);
             }
@@ -229,9 +229,9 @@ namespace h_admin.Controllers
                     result = responseString;
                 }
                 Retsendsms ret = JsonConvert.DeserializeObject<Retsendsms>(result);
+               
 
-
-                return Json(new { state = true, ret = ret }, JsonRequestBehavior.AllowGet);
+                return Json(new {state=true ,ret=ret }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -265,7 +265,7 @@ namespace h_admin.Controllers
                     return Json(new { state = true, ret = ret }, JsonRequestBehavior.AllowGet);
                 }
             }
-            catch (Exception e)
+            catch(Exception e)
             {
                 return Json(new { state = false, ret = e.Message }, JsonRequestBehavior.AllowGet);
             }
@@ -274,10 +274,10 @@ namespace h_admin.Controllers
 
         [HttpPost]
         [ActionName("getsms")]
-        public async System.Threading.Tasks.Task<ActionResult> SubmittAsync(string type, string count)
+        public async System.Threading.Tasks.Task<ActionResult> SubmittAsync(string type,string count)
         {
             //var a = recm.GetMessages(Smsparam.username, Smsparam.password, 2, Smsparam.number, 0, 5);
-
+           
 
             string responseString = "";
             try
@@ -298,8 +298,8 @@ namespace h_admin.Controllers
                     var content = new FormUrlEncodedContent(values);
 
                     var response = await client.PostAsync("https://rest.payamak-panel.com/api/SendSMS/GetMessages", content);
-                    responseString = await response.Content.ReadAsStringAsync();
-
+                     responseString = await response.Content.ReadAsStringAsync();
+                   
 
                     return Json(new { state = true, ret = responseString }, JsonRequestBehavior.AllowGet);
                 }

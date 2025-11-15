@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("h_admin")]
-[assembly: AssemblyCopyright("Copyright ©  2025")]
+[assembly: AssemblyCopyright("Copyright ©  2022")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("5b7e911b-4a80-49dd-ba1e-3479e6bbecb9")]
+[assembly: Guid("9b9dae5a-8da0-4f99-805e-27a56bcab348")]
 
 // Version information for an assembly consists of the following four values:
 //

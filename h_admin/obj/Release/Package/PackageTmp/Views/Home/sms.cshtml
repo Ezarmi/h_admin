@@ -1,0 +1,210 @@
+﻿
+@{
+    Layout = "~/Views/Shared/layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>sms</title>
+</head>
+<body>
+    <div class="smsdiv">
+        <textarea id="smstxt" rows="4" style="width:100%" placeholder="متن پیامک ارسالی را وارد کنید"></textarea>
+        <input id="r_p" type="number" placeholder="شماره گیرنده را وارد کنید" />
+        <button class="btn btn-success" onclick="sendsms()">ارسال پیامک</button>
+    </div>
+
+    <div class="smsdiv">
+        <input id="recid" type="number" placeholder="شماره استعلام را وارد کنید" />
+        <button class="btn btn-info" onclick="getstatus()">استعلام</button>
+    </div>
+
+    <div class="smsdiv">
+        <input id="type" type="number" placeholder="1 برای دریافتی 2 برای ارسالی" />
+        <input id="count" type="number" placeholder="چه تعداد دریافت گردد" />
+        <button class="btn btn-info" onclick="getsms()">دریافت</button>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">جدول ریسپانسیو</h3>
+
+                        <div class="box-tools">
+                            <div class="input-group input-group-sm" style="width: 150px;">
+                                <input type="text" name="table_search" class="form-control pull-right" placeholder="جستجو">
+
+                                <div class="input-group-btn">
+                                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body table-responsive no-padding">
+                        <table class="table table-hover">
+
+                            <thead>
+                                <tr>
+                                    <th>id</th>
+                                    <th>فرستنده</th>
+                                    <th>گیرنده</th>
+                                    <th>متن</th>
+                                    <th>عملیات</th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody id="tbl_sms">
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+@section scripts{
+    
+    <script>
+        function sendsms() {
+
+            var txt = $("#smstxt").val();
+            var phone = $("#r_p").val();
+
+           
+
+            $.post("/Home/sendsms", { txt: txt, phone: phone })
+                .done(function (res) {
+
+                    if (res.state) {
+
+                        if (res.ret.Value.length > 4) {
+                            swal("ارسال موفق", res.ret.Value, "success");
+                        }
+                        else {
+                            swal("ارسال ناموفق", res.ret.Value, "error");
+                        }
+
+                    }
+                    else {
+                        swal("ارسال ناموفق", res.ret, "error");
+                    }
+                })
+                .fail(function () {
+                    swal("خطا", "عدم برقراری ارتباط با سرور", "error");
+                });
+
+        }
+
+        function getstatus() {
+            var recid = $("#recid").val();
+
+            $.post("/Home/getstatus", { recid:recid })
+                .done(function (res) {
+
+                    if (res.state) {
+
+                        var valll = parseInt(res.ret.Value);
+
+                        switch (valll) {
+
+                            case 1: swal("", "رسیده به گوشی", "info");
+                                break;
+
+                        }
+
+                       
+
+                    }
+                    else {
+                        swal("خطا", res.ret, "error");
+                    }
+                })
+                .fail(function () {
+                    swal("خطا", "عدم برقراری ارتباط با سرور", "error");
+                });
+
+        }
+
+        function getsms() {
+            var type = $("#type").val();
+            var count = $("#count").val();
+            $.post("/Home/getsms", { type:type, count:count})
+                .done(function (res) {
+
+                    if (res.state) {
+                        var a = JSON.parse(res.ret);
+
+                        console.log(a);
+
+                        $("#tbl_sms").empty();
+
+                        for (var item in a.Data) {
+                            $("#tbl_sms").append(
+                                '<tr>' +
+                                '<td>' + a.Data[item].MsgID + '</td>' +
+                                '<td>' + a.Data[item].Sender + '</td>' +
+                                '<td>' + a.Data[item].Receiver + '</td>'+
+                                '<td>' + a.Data[item].Body + '</td>' +
+                                '<td><button class="btn btn-danger" id=r_"' + a.Data[item].MsgID+'" onclick="deletesms(this.id)">حذف </button>'
+
+                            );
+
+                        }
+
+
+
+                    }
+                    else {
+                        swal("خطا", res.ret, "error");
+                    }
+                })
+                .fail(function () {
+                    swal("خطا", "عدم برقراری ارتباط با سرور", "error");
+                });
+        }
+
+        function deletesms(a) {
+
+            var msgid = a.split("_");
+            alert(msgid[1]);
+
+            msgid[1] = msgid[1].replace(/"/g, "");
+            alert(msgid[1]);
+
+            $.post("/Home/deletesms", { msgid: msgid[1]})
+                .done(function (res) {
+
+                    if (res.state) {
+                      
+
+                        if (res.ret = 1 || res.ret == "1") {
+                            swal("عملیات موفق", "پیام مورد نظر حذف شد", "success");
+                        }
+                        else {
+                            swal("عملیات ناموفق", "پارامتر ورودی اشتباه", "error");
+                        }
+
+
+
+                    }
+                    else {
+                        swal("خطا", res.ret, "error");
+                    }
+                })
+                .fail(function () {
+                    swal("خطا", "عدم برقراری ارتباط با سرور", "error");
+                });
+            
+
+        }
+    </script>
+    
+    }
